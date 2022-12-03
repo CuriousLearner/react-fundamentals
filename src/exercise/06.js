@@ -10,21 +10,14 @@ function UsernameForm({onSubmitUsername}) {
   // events (which refreshes the page).
   // 📜 https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
   //
-  const usernameInputRef = React.useRef()
-  const [error, setError] = React.useState('')
+  const [username, setUsername] = React.useState('')
   function handleSubmit(event) {
     event.preventDefault()
-    const val = usernameInputRef.current.value
-    onSubmitUsername(val)
+    onSubmitUsername(username)
   }
   function handleUsernameChange(event) {
-    const val = usernameInputRef.current.value
-    let isValid = val === val.toLowerCase()
-    if (!isValid) {
-      setError('Username must be lower case')
-    } else {
-      setError('')
-    }
+    const val = event.target.value
+    setUsername(val.toLowerCase())
   }
   return (
     <form onSubmit={handleSubmit}>
@@ -33,16 +26,11 @@ function UsernameForm({onSubmitUsername}) {
         <input
           id="username"
           type="text"
-          ref={usernameInputRef}
+          value={username}
           onChange={handleUsernameChange}
         />
       </div>
-      <p role="alert" style={{color: 'red'}}>
-        {error}
-      </p>
-      <button type="submit" disabled={Boolean(error)}>
-        Submit
-      </button>
+      <button type="submit">Submit</button>
     </form>
   )
 }
